@@ -63,8 +63,6 @@ hindi.info()
 
 # List of all unique languages sorted alphabetically
 languages = sorted(a['original_language'].dropna().unique())
-print("Total Languages:", len(languages))
-print("Languages List:", languages)
 
 hindi.isnull().sum().sort_values(ascending=False)
 
@@ -74,7 +72,6 @@ hindi[['title','release_date', 'popularity', 'vote_average', 'vote_count']].sort
 hindi['release_date'] = pd.to_datetime(hindi['release_date'], errors='coerce')
 hindi['release_year'] = hindi['release_date'].dt.year
 
-hindi['release_year'].value_counts().sort_index().plot(kind='bar', figsize=(15,4), title='Number of Hindi Movies per Year')
 
 # app.py
 
