@@ -49,7 +49,6 @@ a = load_data()
 
 a.info()
 
-a.iloc[:,10].value_counts()['hi']
 
 
 
