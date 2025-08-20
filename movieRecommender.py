@@ -7,8 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1Xyzznfq5FoHyk5qXarmqSX4vQs7lPoVB
 """
 
-pip install -r requirements.txt
-
 
 import numpy as np
 import pandas as pd
