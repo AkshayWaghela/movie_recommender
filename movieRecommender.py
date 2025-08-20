@@ -95,8 +95,6 @@ plt.show()
 
 
 
-pip install streamlit
-
 # app.py
 
 import pandas as pd
