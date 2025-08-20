@@ -10,7 +10,7 @@ Original file is located at
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
+
 
 # IMPORTANT: RUN THIS CELL IN ORDER TO IMPORT YOUR KAGGLE DATA SOURCES,
 # THEN FEEL FREE TO DELETE THIS CELL.
