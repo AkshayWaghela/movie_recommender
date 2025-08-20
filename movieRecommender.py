@@ -53,8 +53,7 @@ a.iloc[:,10].value_counts()['hi']
 
 
 
-hindi = a[a['original_language']=='hi']
-
+hindi = a.copy()
 
 
 hindi.head()
