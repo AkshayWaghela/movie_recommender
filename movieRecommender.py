@@ -38,7 +38,7 @@ import streamlit as st
 
 @st.cache_data
 def load_data():
-    url = "https://raw.githubusercontent.com/<username>/<repo>/main/movies.csv"
+    url = "https://raw.githubusercontent.com/AkshayWaghela/movie_recommender/refs/heads/main/movies.csv"
     return pd.read_csv(url)
 
 a = load_data()
