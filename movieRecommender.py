@@ -11,7 +11,6 @@ Original file is located at
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 
 # IMPORTANT: RUN THIS CELL IN ORDER TO IMPORT YOUR KAGGLE DATA SOURCES,
@@ -84,16 +83,6 @@ hindi['release_date'] = pd.to_datetime(hindi['release_date'], errors='coerce')
 hindi['release_year'] = hindi['release_date'].dt.year
 
 hindi['release_year'].value_counts().sort_index().plot(kind='bar', figsize=(15,4), title='Number of Hindi Movies per Year')
-
-import matplotlib.pyplot as plt
-
-plt.hist(hindi['vote_average'].dropna(), bins=20, edgecolor='black')
-plt.title('Distribution of Vote Averages')
-plt.xlabel('Vote Average')
-plt.ylabel('Number of Movies')
-plt.show()
-
-
 
 # app.py
 
