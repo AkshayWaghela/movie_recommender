@@ -6,6 +6,22 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import MinMaxScaler
 
+
+import os
+
+# File to store history
+HISTORY_FILE = "search_history.csv"
+
+def log_search(movie, rating):
+    new_entry = pd.DataFrame([{"Movie": movie, "Rating": rating}])
+    if os.path.exists(HISTORY_FILE):
+        old = pd.read_csv(HISTORY_FILE)
+        updated = pd.concat([old, new_entry], ignore_index=True)
+    else:
+        updated = new_entry
+    updated.to_csv(HISTORY_FILE, index=False)
+
+
 # ----------------------------
 # Load + Clean Dataset
 # ----------------------------
@@ -35,7 +51,7 @@ num_features = scaler.fit_transform(df[['Year','Duration','Rating']])
 def get_recommendations(movie_name, user_rating, top_n=5):
     if movie_name not in df['Name'].values:
         return None
-    
+    log_search(movie_name,user_rating)
     idx = df[df['Name'] == movie_name].index[0]
 
     # Compute similarities
