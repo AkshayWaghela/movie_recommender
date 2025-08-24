@@ -12,27 +12,6 @@ from sklearn.preprocessing import MinMaxScaler
 @st.cache_data
 def load_data():
     df = pd.read_csv("IMDbRatings_IndianMovies.csv")
-
-    # Fill missing values
-    df['Year'] = df['Year'].fillna(df['Year'].median())
-
-    # Clean Duration
-    df['Duration'] = (
-        df['Duration']
-        .astype(str)
-        .str.replace(" min", "", regex=False)
-        .replace("nan", np.nan)
-        .astype(float)
-        .fillna(100)
-    )
-
-    # Ratings
-    df['Rating'] = df['Rating'].fillna(df['Rating'].median())
-
-    # Fill missing cast/director and create Talent field
-    df[['Director','Actor 1','Actor 2','Actor 3']] = df[['Director','Actor 1','Actor 2','Actor 3']].fillna('')
-    df['Talent'] = df[['Director','Actor 1','Actor 2','Actor 3']].agg(' '.join, axis=1)
-
     return df
 
 df = load_data()
