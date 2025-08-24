@@ -11,7 +11,7 @@ from sklearn.preprocessing import MinMaxScaler
 # ----------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("IMDbRatings_IndianMovies.csv")
+    df = pd.read_csv("IMDbRatings_IndianMovies(1).csv")
     return df
 
 df_movies = load_data()
