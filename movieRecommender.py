@@ -129,6 +129,7 @@ if st.button("Recommend Movies 🎥"):
         st.warning("Movie not found in dataset. Try another one!")
     else:
         st.subheader(f"Because you rated **{movie_choice}** ({user_rating}/10), you may also like:")
+        st.markdown(recommendation)
         for idx, row in recommendations.iterrows():
             st.markdown(f"**{idx+1}. {row['Name']}** ({int(row['Year'])})  \n"
                         f"🎭 Genre: {row['Genre']}  \n"
