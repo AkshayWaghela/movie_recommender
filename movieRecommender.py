@@ -7,34 +7,46 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import MinMaxScaler
 
 # ----------------------------
-# Load Dataset
+# Load + Clean Dataset
 # ----------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("IMDbRatings_IndianMovies(1).csv")
-    return df
-
-df_movies = load_data()
-
-# ----------------------------
-# Preprocessing
-# ----------------------------
-@st.cache_data
-def preprocess(df):
-    df = df.copy()
+    df = pd.read_csv("IMDbRatings_IndianMovies.csv")
 
     # Fill missing values
     df['Year'] = df['Year'].fillna(df['Year'].median())
-    df['Duration'] = df['Duration'].fillna(100)
+
+    # Clean Duration
+    df['Duration'] = (
+        df['Duration']
+        .astype(str)
+        .str.replace(" min", "", regex=False)
+        .replace("nan", np.nan)
+        .astype(float)
+        .fillna(100)
+    )
+
+    # Ratings
     df['Rating'] = df['Rating'].fillna(df['Rating'].median())
 
+    # Fill missing cast/director and create Talent field
+    df[['Director','Actor 1','Actor 2','Actor 3']] = df[['Director','Actor 1','Actor 2','Actor 3']].fillna('')
+    df['Talent'] = df[['Director','Actor 1','Actor 2','Actor 3']].agg(' '.join, axis=1)
+
+    return df
+
+df = load_data()
+
+# ----------------------------
+# Precompute Similarities
+# ----------------------------
+@st.cache_data
+def compute_similarities(df):
     # Genre similarity (one-hot cosine)
     genre_dummies = df['Genre'].fillna('').str.get_dummies(sep=',')
     genre_sim = cosine_similarity(genre_dummies)
 
     # Talent similarity (TF-IDF)
-    df[['Director','Actor 1','Actor 2','Actor 3']] = df[['Director','Actor 1','Actor 2','Actor 3']].fillna('')
-    df['Talent'] = df[['Director','Actor 1','Actor 2','Actor 3']].agg(' '.join, axis=1)
     tfidf = TfidfVectorizer(stop_words='english')
     talent_matrix = tfidf.fit_transform(df['Talent'])
     talent_sim = cosine_similarity(talent_matrix)
@@ -44,9 +56,9 @@ def preprocess(df):
     num_features = scaler.fit_transform(df[['Year','Duration','Rating']])
     numeric_sim = cosine_similarity(num_features)
 
-    return df, genre_sim, talent_sim, numeric_sim
+    return genre_sim, talent_sim, numeric_sim
 
-df, genre_sim, talent_sim, numeric_sim = preprocess(df_movies)
+genre_sim, talent_sim, numeric_sim = compute_similarities(df)
 
 # ----------------------------
 # Recommendation Function
